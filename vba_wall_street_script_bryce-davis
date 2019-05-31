@@ -1,0 +1,50 @@
+Sub wall_street_hw()
+
+    Dim Ticker As String
+
+    Dim TotalStockVol As Long
+    TotalStockVol = 0
+
+    Dim Summary_Table_Row As Integer
+    Summary_Table_Row = 2
+
+    'Determine last row and last column
+    LastRow = Cells(Rows.Count, 1).End(xlUp).Row
+    LastColumn = Cells(1, Columns.Count).End(xlToLeft).Column
+
+    'Add in necessary Headers
+    Cells(1, 11).Value = "Ticker"
+    Cells(1, 12).Value = "Total Stock Volume"
+
+    'Loop through all tickers
+    For i = 2 To LastRow
+
+        'Check if we are still within the same ticker symbol, if not...
+        If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+
+            'Set the ticker symbol
+            Ticker = Cells(i, 1).Value
+
+            'Sum to the Total Stock Volume
+            TotalStockVol = TotalStockVol + Cells(i, 7).Value
+
+            'Print the ticker symbol in the Summary Table
+            Range("K" & Summary_Table_Row).Value = Ticker
+
+            'Print the Total Stock Volume to the Summary Table
+            Range("L" & Summary_Table_Row).Value = TotalStockVol
+
+            'Add one to the summary row
+            Summary_Table_Row = Summary_Table_Row + 1
+
+            'Reset the Total Stock Volume
+            TotalStockVol = 0
+
+        End If
+
+    Next i
+
+    Columns("A:L").AutoFit
+
+
+End Sub
